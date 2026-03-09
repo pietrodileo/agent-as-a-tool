@@ -40,22 +40,45 @@ def main() -> None:
     logger.info(f"langfuse_client initialized: {langfuse_client}")
 
     default_think = "false"
-    model: str | None = env.get("LLM_MODEL")
     think: bool = env.get("THINK", default_think).lower() == "true"
+    temperature = env.get("TEMPERATURE", 0.1)
     chat_messages_in_memory = int(env.get("MESSAGE_MEMORY", 0))
+    max_tokens = int(env.get("MAX_TOKENS", 1024))
+    llm_type = env.get("LLM_TYPE")
     
+    base_url = None
+    model = None
+    api_key = None
+    if llm_type == "ollama":
+        base_url = env.get("OLLAMA_BASE_URL")
+        model = env.get("OLLAMA_LLM_MODEL")
+        api_key = None
+    elif llm_type == "mistral":
+        base_url = env.get("MISTRAL_BASE_URL")
+        model = env.get("MISTRAL_LLM_MODEL")
+        api_key = env.get("MISTRAL_API_KEY")
+    
+    if not base_url:
+        raise ValueError(f"Unknown LLM_TYPE: {env.get('LLM_TYPE')}")
+        
     if not model:
         logger.error("LLM_MODEL environment variable is not set.")
         raise ValueError("LLM_MODEL environment variable is not set.")
     
+    if not llm_type:
+        logger.error("LLM_TYPE environment variable is not set.")
+        raise ValueError("LLM_TYPE environment variable is not set.")
+        
     service = LLMService(
+        llm_type=llm_type,
         model=model,
-        base_url=env.get("OLLAMA_URL", "http://localhost:11434"),
-        temperature=0.1,
+        base_url=base_url,
+        temperature=temperature,
         think=think,
         message_memory=chat_messages_in_memory,
-        max_tokens=1024,
-        langfuse_client=langfuse_client
+        max_tokens=max_tokens,
+        langfuse_client=langfuse_client,
+        api_key=api_key
     )
     travel_agents = create_travel_agents(service)
     orchestrator_tools = build_agent_tools(travel_agents)

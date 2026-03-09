@@ -31,3 +31,47 @@ example: `ollama run qwen3.5`
 
 7. run code
 `uv run .\main.py`
+
+# Configurations of .env file
+
+My .env file to enable ollama or mistral ai and languse is configured in this way.
+Please replace your API keys to use this code.
+
+```
+##############################
+# GENERIC LLM CONFIGURATIONS #
+##############################
+MAX_TOKENS=1024
+STREAMING=true                       # Enable streaming responses
+TEMPERATURE=0.2                      # Temperature for response randomness (0.0 to 1.0)
+THINK=false
+MESSAGE_MEMORY=20
+LLM_TYPE="mistral" # select which llm type to use (e.g., 'mistral' or 'ollama')
+
+##########################
+# MISTRAL CONFIGURATIONS #
+##########################
+MISTRAL_API_KEY="" 
+MISTRAL_LLM_MODEL="mistral-medium-latest"        # Mistral model name (e.g., mistral-tiny, mistral-small, mistral-medium)
+MISTRAL_BASE_URL="https://api.mistral.ai/v1/"
+
+##########################
+# OLLAMA CONFIGURATIONS #
+##########################
+OLLAMA_LLM_MODEL=qwen3.5:0.8b
+OLLAMA_BASE_URL="http://localhost:11434"
+
+###########################
+# LANGFUSE CONFIGURATIONS #
+###########################
+
+# LOCAL CONFIGURATIONS
+# LANGFUSE_SECRET_KEY=""
+# LANGFUSE_PUBLIC_KEY=""
+# LANGFUSE_BASE_URL="http://localhost:3000"
+
+# CLOUD CONFIGURATIONS
+LANGFUSE_SECRET_KEY=""
+LANGFUSE_PUBLIC_KEY=""
+LANGFUSE_BASE_URL="https://cloud.langfuse.com"
+```
