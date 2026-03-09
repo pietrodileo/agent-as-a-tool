@@ -1,3 +1,4 @@
+# Requirements
 
 1. Create venv
 
@@ -34,7 +35,7 @@ example: `ollama run qwen3.5`
 
 # Configurations of .env file
 
-My .env file to enable ollama or mistral ai and languse is configured in this way.
+My .env file to enable ollama or mistral ai and langfuse is configured in this way.
 Please replace your API keys to use this code.
 
 ```
@@ -74,4 +75,5 @@ OLLAMA_BASE_URL="http://localhost:11434"
 LANGFUSE_SECRET_KEY=""
 LANGFUSE_PUBLIC_KEY=""
 LANGFUSE_BASE_URL="https://cloud.langfuse.com"
+
 ```
